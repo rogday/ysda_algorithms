@@ -237,8 +237,8 @@ mod tests {
         let tree_size = 100_000;
         let iterations = 1_000;
 
-        for i in 0..iterations {
-            let (seed, reference_tree) = gen_tree(tree_size);
+        for _i in 0..iterations {
+            let (_seed, reference_tree) = gen_tree(tree_size);
 
             let mapping = {
                 let mut tmp: Vec<usize> = (0..tree_size).collect();
@@ -280,9 +280,7 @@ mod tests {
                     }
 
                     if mapped_tree != isomorphic_tree.inner {
-                        assert!(false);
-                        println!("=(");
-                        println!("{:?}\n{:?}\n{:?}", reference_tree, isomorphic_tree, mapped_tree);
+                        panic!("{:?}\n{:?}\n{:?}", reference_tree, isomorphic_tree, mapped_tree);
                     }
                 }
             }

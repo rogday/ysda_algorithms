@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "bad_rand", "convex_hull", "decoder", "isomorphic_trees", 
+    "perfect_hash", "sqrt_countdown", "squares",
+]

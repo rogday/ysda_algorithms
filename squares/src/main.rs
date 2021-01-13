@@ -121,16 +121,16 @@ struct HashCombinator<const PRIME: u64, const N: usize> {
 
 impl<const PRIME: u64, const N: usize> HashCombinator<PRIME, N> {
     fn new(input: &[Vec<u32>]) -> Self {
-        let mut hashers = vec![];
-
         let mut rng = thread_rng();
         let distr = Uniform::new(1, PRIME);
 
-        for _ in 0..N {
-            hashers.push(Hasher::new(input, distr.sample(&mut rng), distr.sample(&mut rng)));
+        Self {
+            hashers: (0..N)
+                .map(|_| Hasher::new(input, distr.sample(&mut rng), distr.sample(&mut rng)))
+                .collect::<Vec<_>>()
+                .try_into()
+                .unwrap(),
         }
-
-        Self { hashers: hashers.try_into().unwrap() }
     }
 
     fn get_hashes(&self, square: Square) -> [u64; N] {

@@ -5,7 +5,7 @@ fn main() {
     const ALPHABET: &[u8; 62] = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const FORWARD_BY: usize = 100_000_000 + 310;
     const STATE_SIZE: usize = 31;
-    const MODULO: i64 = 2_147_483_647;
+    const MODULO: i64 = i32::MAX as i64;
 
     let mut pows: [i64; STATE_SIZE] = [1; STATE_SIZE];
     (1..STATE_SIZE).for_each(|i| pows[i] = (pows[i - 1] * 16_807) % MODULO);
@@ -39,8 +39,7 @@ fn main() {
                 .zip(pows.iter())
                 .skip(1)
                 .map(|(x, y)| x.wrapping_mul((((seed as i64) * y) % MODULO) as u32))
-                .fold(0u32, |acc, x| acc.wrapping_add(x))
-                .wrapping_add(first_part);
+                .fold(first_part, |acc, x| acc.wrapping_add(x));
 
             if TARGET[i] != ALPHABET[(sum >> 1) as usize % ALPHABET.len()] {
                 return;
